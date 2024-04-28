@@ -24,8 +24,8 @@ class App(QMainWindow):
         self.makeWindowCenter()
         self.run_system()  # main operating function of this GUI FIle
         # Status Bar Message
-        self.statusBar().showMessage("Convert your image files to PDF(Portable Document Format).")
-        self.setWindowTitle("Image To PDF Converter App For Desktop")
+        self.statusBar().showMessage("图片文件转 PDF")
+        self.setWindowTitle("图片 PDF 转换软件")
 
     def makeWindowCenter(self):
         """For launching windows in center."""
@@ -70,8 +70,8 @@ class App(QMainWindow):
             pass
 
         else:
-            get_reply = QMessageBox.question(self, "Remove An Image File", "Do you want to remove " + str(item.text())
-                                             + " from the list?", QMessageBox.Yes | QMessageBox.No)
+            get_reply = QMessageBox.question(self, "删除一张图片", "你想要从列表删除 " + str(item.text())
+                                             + " 吗?", QMessageBox.Yes | QMessageBox.No)
             if get_reply == QMessageBox.Yes:
                 element = self.listWidget.takeItem(current_row)
                 del element
@@ -93,14 +93,14 @@ class App(QMainWindow):
             self.listWidget.setCurrentItem(item)
 
     def clear_button_on_click(self):
-        reply = QMessageBox.question(self, "Clear List Box", "Do you want to clear all the selections?",
+        reply = QMessageBox.question(self, "清除选择列表", "确定清除所选所有文件吗?",
                                      QMessageBox.Yes | QMessageBox.No)
         if reply == QMessageBox.Yes:
             self.listWidget.clear()
 
     def make_pdf_button_on_click(self):
         if self.listWidget.count() == 0:
-            reply = QMessageBox.information(self, "Warning!", "List box is empty! Add files to list box first.",
+            reply = QMessageBox.information(self, "警告!", "请先添加文件到列表",
                                             QMessageBox.Ok)
 
         else:
@@ -108,24 +108,24 @@ class App(QMainWindow):
             for i in range(self.listWidget.count()):
                 items_list.append(str(self.listWidget.item(i).text()))
 
-            pdf_name, ok = QInputDialog.getText(self, "PDF Name", "Give A Name To Your PDF File", QLineEdit.Normal)
+            pdf_name, ok = QInputDialog.getText(self, "PDF文件名", "命名你的PDF文件", QLineEdit.Normal)
             if pdf_name == "":
-                QMessageBox.information(self, "Alert", "Please Give Your PDF a name.", QMessageBox.Ok)
+                QMessageBox.information(self, "提示", "请命名你的PDF文件", QMessageBox.Ok)
                 return
             if ok and pdf_name is not None:
-                reply = QMessageBox.information(self, "PDF Location", "Let's Select A Destination "
-                                                                      "To Save Your PDF File!", QMessageBox.Ok)
+                reply = QMessageBox.information(self, "PDF 存放位置", "选择一个位置来 "
+                                                                      "存放你的PDF文件", QMessageBox.Ok)
 
                 if reply == QMessageBox.Ok:
 
-                    pdf_location = QFileDialog.getExistingDirectory(self, 'Open File')
+                    pdf_location = QFileDialog.getExistingDirectory(self, '打开文件')
                     pdf_name += ".pdf"
                     if pdf_location == "":
                         return
                     main.make_pdf_only_selected(items_list, pdf_name, pdf_location)
-                    last_reply = QMessageBox.information(self, "Done!", "Hurrah! Your PDF is ready! "
-                                                                        "Go to your selected location to find "
-                                                                        "the PDF.", QMessageBox.Ok)
+                    last_reply = QMessageBox.information(self, "完成!", "PDF 文件准备好了"
+                                                                        "打开你存放文件的目录 "
+                                                                        "来找到 PDF 文件.", QMessageBox.Ok)
                     if last_reply == QMessageBox.Ok:
                         pass
                 else:
